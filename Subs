@@ -42,8 +42,6 @@ Sub Formula_to_Value()
 ' Formula_to_Value Macro
 ' Convert a cell value from a formula to the formula output text.
 '
-' Keyboard Shortcut: Ctrl+Shift+C
-'
     For Each cell In Application.Selection
         cell.Value = cell.Text
         Next cell
