@@ -1,0 +1,80 @@
+Function CAT(cell_range As Range, delim As String) As String
+'
+' CAT Function
+' User function to concatenate cells with a delimiting character
+' Usage: CAT(A1:D1, ",")
+'
+    Dim CAT_iter As String
+    Dim iter As Integer
+    
+    iter = 1
+    For Each cell In cell_range
+        If iter = cell_range.Count Then
+            CAT_iter = CAT_iter & cell.Value
+        Else
+            CAT_iter = CAT_iter & cell.Value & delim
+        End If
+        iter = iter + 1
+    Next cell
+    CAT = CAT_iter
+End Function
+################################################################################
+
+Function ANNA_MAP(anna_text As String) As String
+'
+' ANNA_MAP function
+' User function to convert a string into a character map
+' Numbers represented by a "N", and characters by "A"
+'
+' Note: This requires Microsoft VBScript Regular Expressions 5.5
+'        Tools->References->[check]Microsoft VBScript Regular Expressions 5.5
+'
+' Sub-note: There's probably a more efficient way of doing this... but meh.
+
+    Dim map As String
+    Dim RegExp As Object
+    Set RegExp = CreateObject("VBScript.RegExp")
+    Dim aPattern As String
+    Dim nPattern As String
+    Dim cPattern As String
+    
+    aPattern = "[a-zA-Z]"
+    nPattern = "[0-9]"
+    cPattern = "[^a-zA-Z0-9]"
+  
+    For i = 1 To Len(anna_text)
+        RegExp.Pattern = aPattern
+        If RegExp.test(Mid(anna_text, i, 1)) Then
+            map = map & "A"
+        End If
+        RegExp.Pattern = nPattern
+        If RegExp.test(Mid(anna_text, i, 1)) Then
+            map = map & "N"
+        End If
+        RegExp.Pattern = cPattern
+        If RegExp.test(Mid(anna_text, i, 1)) Then
+            map = map & Mid(anna_text, i, 1)
+        End If
+        
+    Next
+
+    ANNA_MAP = map
+    
+    Set RegExp = Nothing
+    
+End Function
+################################################################################
+
+Function worksheet_exists(name As String) As Boolean
+'
+' worksheets_exists Function
+' Returns a boolean as to whether a worksheets exists of the given name
+'
+    worksheet_exists = False
+    For Each ws In Worksheets
+        If ws.name = name Then
+            worksheet_exists = True
+            Exit Function
+        End If
+    Next ws
+End Function
