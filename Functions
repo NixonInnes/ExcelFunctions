@@ -97,3 +97,12 @@ Function worksheet_exists(name As String) As Boolean
         End If
     Next ws
 End Function
+################################################################################
+
+Function do_this_prompt(text As String) As Boolean
+    response = MsgBox(text, vbYesNo)
+    do_this_prompt = False
+    If response = vbYes Then
+        do_this_prompt = True
+    End If
+End Function
