@@ -3,7 +3,7 @@ Sub Collect_Comments()
 ' Collect_Comments Macro
 ' Consolidates all comments from a selected range of cells into a new Comments sheet
 '
-    Dim SelRange As Range
+    Dim SelRange As range
     Set SelRange = Selection
     
     Dim row As Integer
@@ -11,8 +11,7 @@ Sub Collect_Comments()
     If Not worksheet_exists("Comments") Then
         Worksheets.Add().name = "Comments"
     Else
-        response = MsgBox("Delete current Comments worksheet?", vbYesNo, "Delete Comments?")
-        If response = vbYes Then
+        If do_this_prompt("Delete current Comments worksheet?") Then
             Worksheets("Comments").Delete
             Worksheets.Add().name = "Comments"
         Else
@@ -29,7 +28,7 @@ Sub Collect_Comments()
         If Not cell.Comment Is Nothing Then
             Sheets("Comments").Cells(row, 1).Value = cell.Address
             Sheets("Comments").Cells(row, 2).Value = cell.Value
-            Sheets("Comments").Cells(row, 3).Value = cell.Comment.Text
+            Sheets("Comments").Cells(row, 3).Value = cell.Comment.text
             row = row + 1
         End If
     Next
@@ -84,7 +83,17 @@ Sub CombineSheets()
     
     On Error Resume Next
     Sheets(1).Select
-    Worksheets.Add.Name = "Combined"
+    
+    If Not worksheet_exists("Combined") Then
+        Worksheets.Add.name = "Combined"
+    Else
+        If do_this_prompt("Delete the current Combined worksheet?") Then
+            Worksheets("Combined").Delete
+            Worksheets.Add.name = "Combined"
+        Else
+            Exit Sub
+        End If
+    End If
     
     Sheets(2).range("A1").EntireRow.Select
     Selection.Copy Destination:=Sheets(1).range("A1")
