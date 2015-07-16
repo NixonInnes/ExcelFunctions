@@ -46,3 +46,56 @@ Sub Formula_to_Value()
         cell.Value = cell.Text
         Next cell
 End Sub
+######################################################################################################################
+
+Sub SwapValues()
+'
+' SwapValues Macro
+' Swaps the values in highlighted cells with another range of cells
+' Note: Will prompt for second range
+'
+'
+    Dim range1 As range
+    Dim range2 As range
+    Dim array1 As Variant
+    Dim array2 As Variant
+    
+    On Error GoTo ErrorHandler:
+        Set range1 = Application.Selection
+        Set range2 = Application.InputBox("Swap selection with: ", "Swap Cell Values", Type:=8)
+        array1 = range1.Value
+        array2 = range2.Value
+        range1.Value = array2
+        range2.Value = array1
+    
+ErrorHandler:
+    Exit Sub
+       
+End Sub
+######################################################################################################################
+
+Sub CombineSheets()
+'
+' CombineSheets Macro
+' Combine the contents of several sheets into one
+'
+'
+    Dim I As Integer
+    
+    On Error Resume Next
+    Sheets(1).Select
+    Worksheets.Add
+    Sheets(1).Name = "Combined"
+    
+    Sheets(2).range("A1").EntireRow.Select
+    Selection.Copy Destination:=Sheets(1).range("A1")
+    
+    For I = 2 To Sheets.Count
+        Sheets(I).Activate
+        range("A1").Select
+        Selection.CurrentRegion.Select
+        Selection.Offset(1, 0).Resize(Selection.Rows.Count - 1).Select
+        Selection.Copy Destination:=Sheets(1).range("A65536").End(xlUp)(2)
+    Next
+
+End Sub
