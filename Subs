@@ -84,8 +84,7 @@ Sub CombineSheets()
     
     On Error Resume Next
     Sheets(1).Select
-    Worksheets.Add
-    Sheets(1).Name = "Combined"
+    Worksheets.Add.Name = "Combined"
     
     Sheets(2).range("A1").EntireRow.Select
     Selection.Copy Destination:=Sheets(1).range("A1")
