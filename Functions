@@ -65,6 +65,25 @@ Function ANNA_MAP(anna_text As String) As String
 End Function
 ################################################################################
 
+Function FORMAT_TAG(in_string As String) As String
+    Dim map As String
+    Dim out_string As String
+    
+    map = ANNA_MAP(in_string)
+    
+    For I = 1 To Len(in_string)
+        If Mid(map, I, 2) = "AN" Or Mid(map, I, 2) = "NA" Then
+            out_string = out_string & Mid(in_string, I, 1) & "-"
+        Else
+            out_string = out_string & Mid(in_string, I, 1)
+        End If
+    Next
+    
+    FORMAT_TAG = out_string
+    
+End Function
+################################################################################
+
 Function worksheet_exists(name As String) As Boolean
 '
 ' worksheets_exists Function
